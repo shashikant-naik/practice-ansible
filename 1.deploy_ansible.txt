@@ -1,0 +1,8 @@
+
+#Default ansible package will not be availabe, only ansible-core available. Hence first install Extra Packages for Enterprise Linux (EPEL) package. Extra Packages for Enterprise Linux (EPEL) is a repository maintained by Fedora packagers for use with CentOS Stream and RHEL.
+
+Get link from: https://docs.fedoraproject.org/en-US/epel/
+cd /etc/yum.repos.d/
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+epel.repo file will be listed. Now you can install ansible package directly

@@ -1,0 +1,50 @@
+-name: Deploy backend
+ hosts: all
+ become: true
+ tasks:
+   -name: Disable default nodejs
+    ansible.builtin.shell: dnf module disable nodejs -y
+
+   -name: Enable and install nodjs 18
+    ansible.builtin.shell: dnf enable nodejs:18 -y
+    ansible.builtin.dnf:
+      name: nodejs
+      state: started
+
+   -name: Add user expense
+    ansible.builtin.user:
+      name: expense
+
+   -name: Create app directory
+     ansible.builtin.file:
+       path: /app
+       state: directory
+       mode: '0755'
+
+   -name: Download and extract application
+     ansible.builtin.unarchive:
+       src: https://expense-artifacts.s3.amazonaws.com/backend.zip
+       dest: /app
+       remote_src: yes
+
+   -name: Download dependencies
+     ansible.builtin.shell: npm install
+
+   -name: Load schema
+     community.mysql.mysql_db:
+       state: import
+       name: all
+       target: /app/schema/backend.sql
+       login_user: root
+       login_password: ExpenseApp@1
+       login_host: mysql-dev.rdevopsb73.online
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,60 @@
+Collection is group of modules
+
+# Run ansible Play book
+Play book to run on all hosts in inventory file use ping module
+vi /tmp/inventory.txt
+#10.20.30.50
+10.20.30.40 ansible_user=centos ansible_password=DevOPs321
+
+ansible -i /tmp/inventory.txt all -e ansible_user=centos -e ansible_password=DevOPs321 -m ping
+
+#Put credentials in inventory file
+ansible -i /tmp/inventory.txt all -m ping
+
+#Put comma at the last if u providing hosts in cmd
+ansible -i 10.20.30.50, all -e ansible_user=centos -e ansible_password=DevOPs321 -m ping
+
+----------
+
+# Run ansible Play book:
+
+ansible-playbook -i 10.20.30.50, -e ansible_user=centos -e ansible_password=DevOPs321 frontend.yml
+
+-------
+Disable ssh host key checking:
+Linux ssh cross compare identity all time and playbook fails. Hence disable ssh host key checking feature.
+
+Disabling on remote host:
+vi ~/.ssh/config
+Host *
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+chmod go-rwx ~/.ssh/config
+
+
+On Ansible server:
+inventory:
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+host:
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+
+global:
+vi /etc/ansible/ansible.cfg or ~/.ansible.cfg file:
+[defaults]
+host_key_checking = False
+
+
+--------
+YML Map:
+a: 10
+b:
+  - 10
+  - 20
+c:
+  course: DevOps
+  cost: 730
+c: { course: DevOps,
+cost: 730 }
+
+

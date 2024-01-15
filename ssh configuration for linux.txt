@@ -18,7 +18,7 @@ ansible -i 10.20.30.50, all -e ansible_user=centos -e ansible_password=DevOPs321
 
 # Run ansible Play book:
 
-ansible-playbook -i 10.20.30.50, -e ansible_user=centos -e ansible_password=DevOPs321 frontend.yml
+ansible-playbook -i 10.20.30.50, -e ansible_user=centos -e ansible_password=DevOps321 frontend.yml
 
 -------
 Disable ssh host key checking:

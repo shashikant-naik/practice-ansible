@@ -5,13 +5,7 @@
     - name: Install nginx
       ansible.builtin.dnf:
         name: nginx
-        state: latest
-
-    - name: Start & Enable Nginx service
-      ansible.builtin.systemd_service:
-        name: nginx
-        state: started
-        enabled: true
+        state: installed
 
     - name: Remove the default content of web server
       ansible.builtin.file:
@@ -30,6 +24,11 @@
         dest: /etc/nginx/default.d/expense.conf
 
 
+    - name: Start & Enable Nginx service
+      ansible.builtin.systemd_service:
+        name: nginx
+        state: started
+        enabled: true
 
 
 

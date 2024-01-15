@@ -7,27 +7,31 @@
         name: nginx
         state: installed
 
-    - name: Remove the default content of web server
-      ansible.builtin.file:
-        path: /usr/share/nginx/html/*
-        state: absent
-
-    - name: Download and unzip frontend content
-      ansible.builtin.unarchive:
-        src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
-        dest: /tmp/
-        remote_src: yes
-
-    - name: Add Nginx Reverse Proxy Configuration
+    - name: Copy Expense config file
       ansible.builtin.copy:
         src: expense.conf
         dest: /etc/nginx/default.d/expense.conf
 
+    - name: Remove the default content file
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: absent
+
+    - name: Create app directory
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: directory
+
+    - name: Download and unzip frontend content
+      ansible.builtin.unarchive:
+        src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
+        dest: /usr/share/nginx/html
+        remote_src: yes
+
     - name: Start & Enable Nginx service
       ansible.builtin.systemd_service:
         name: nginx
-        state: restarted
         enabled: true
-
+        state: restarted
 
 
